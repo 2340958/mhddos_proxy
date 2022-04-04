@@ -1,75 +1,75 @@
-Скрипт-обгортка для запуску потужного DDoS інструмента [MHDDoS](https://github.com/MHProDev/MHDDoS).
+Wrapper script to run the powerful DDoS tool [MHDDoS] (https://github.com/MHProDev/MHDDoS).
 
-- **Не потребує VPN** - скачує і підбирає робочі проксі для атаки (доступний режим `--vpn` за бажанням)
-- Атака **декількох цілей** з автоматичним балансуванням навантаження
-- Використовує **різноманітні методи для атаки**
+- ** Does not require VPN ** - downloads and selects working proxies for the attack (available mode `--vpn` optional)
+- Attack ** multiple targets ** with automatic load balancing
+- Uses ** various methods to attack **
 
-### ⏱ Останні оновлення
+### ⏱ Recent updates
 
-- **03.04.2022** Виправлена помилка Too many open files (дякую, @kobzar-darmogray та @euclid-catoptrics)
-- **02.04.2022** Робочі потоки більше не перезапускаються на кожен цикл, а використовуються повторно. Також виправлена робота Ctrl-C
-- **01.04.2022** Оновленно метод CFB у відповідності з MHDDoS. [Див. примітки нижче](#-попередження-щодо-деяких-методів-атаки)
-- **31.03.2022** Додано надійні DNS сервери для резолвінгу цілі, замість системних. (1.1.1.1, 8.8.8.8 etc.)
+- ** 03.04.2022 ** Fixed bug Too many open files (thanks, @ kobzar-darmogray and @ euclid-catoptrics)
+- ** 02.04.2022 ** Workflows are no longer restarted for each cycle, but are reused. Ctrl-C has also been fixed
+- ** 01.04.2022 ** Updated CFB method in accordance with MHDDoS. [See notes below] (# - warning-about-some-attack-methods)
+- ** 31.03.2022 ** Added reliable DNS servers for target resolving, instead of system. (1.1.1.1, 8.8.8.8 etc.)
 
 <details>
-  <summary>📜 Раніше</summary>
+  <summary> 📜 Previous </summary>
 
-- **29.03.2022** Додано підтримку локального файлу конфігурації (дуже дякую, @kobzar-darmogray).
-- **28.03.2022** Додано табличний вивід `--table` (дуже дякую, @alexneo2003).
-- **27.03.2022**
-    - Дозволено запуск методів DBG, BOMB (дякую @drew-kun за PR) та KILLER для відповідності оригінальному MHDDoS.
-- **26.03.2022**
-    - Запуск усіх обраних атак, замість випадкового вибору
-    - Зменшено використання RAM на великій кількості цілей - тепер на RAM впливає тільки параметр `-t`
-    - Додане кешування DNS і корректна обробка проблем з резолвінгом
-- **25.03.2022** Додано режим VPN замість проксі (прапорець `--vpn`)
-- **25.03.2022** MHDDoS включено до складу репозиторію для більшого контролю над розробкою і захистом від неочікуваних
-  змін
+- ** 29.03.2022 ** Added support for local configuration file (thank you very much, @ kobzar-darmogray).
+- ** 28.03.2022 ** Added tabular output `--table` (thank you very much, @ alexneo2003).
+- ** 27.03.2022 **
+    - DBG, BOMB (thanks @ drew-kun for PR) and KILLER methods are allowed to run to match the original MHDDoS.
+- ** 26.03.2022 **
+    - Launch all selected attacks instead of random
+    - Reduced RAM usage on a large number of targets - now only the `-t` parameter affects RAM
+    - Added DNS caching and correct handling of resolving problems
+- ** 25.03.2022 ** Added VPN mode instead of proxy (`--vpn` checkbox)
+- ** 25.03.2022 ** MHDDoS included in the repository for greater control over the development and protection against unexpected
+  changes
 </details>
 
-### 💽 Встановлення | Installation - [інструкції ТУТ](/docs/installation.md)
+### 💽 Installation | Installation - [instructions HERE] (/ docs / installation.md)
 
-### 🕹 Запуск | Running (наведено різні варіанти цілей)
+### 🕹 Run | Running (different goal options are given)
 
 #### Docker
 
-    docker run -it --rm --pull always ghcr.io/porthole-ascend-cinnamon/mhddos_proxy https://ria.ru 5.188.56.124:80 tcp://194.54.14.131:4477
+    docker run -it --rm --pull always ghcr.io/porthole-ascend-cinnamon/mhddos_proxy https://ria.ru 5.188.56.124:80 tcp: //194.54.14.131: 4477
 
-#### Python (якщо не працює - просто python замість python3)
+#### Python (if it doesn't work - just python instead of python3)
 
-    python3 runner.py https://ria.ru 5.188.56.124:80 tcp://194.54.14.131:4477
+    python3 runner.py https://ria.ru 5.188.56.124:80 tcp: //194.54.14.131: 4477
 
-### 🛠 Налаштування (більше у розділі [CLI](#cli))
+### 🛠 Settings (more in [CLI] (# cli))
 
-**Усі параметри можна комбінувати**, можна вказувати і до і після переліку цілей
+** All parameters can be combined **, you can specify both before and after the list of goals
 
-Змінити навантаження - `-t XXXX` - кількість потоків, за замовчуванням - CPU * 1000
+Change load - `-t XXXX` - number of threads, default - CPU * 1000
 
     docker run -it --rm --pull always ghcr.io/porthole-ascend-cinnamon/mhddos_proxy -t 3000 https://ria.ru https://tass.ru
 
-Щоб переглянути інформацію про хід атаки, додайте прапорець `--table` для таблиці, `--debug` для тексту
+To view information about the progress of the attack, add the `--table` check box for the table,` --debug` for the text
 
     docker run -it --rm --pull always ghcr.io/porthole-ascend-cinnamon/mhddos_proxy --table https://ria.ru https://tass.ru
 
-### 🐳 Комьюніті
-- [Детальний розбір MHDDoS_proxy](https://github.com/SlavaUkraineSince1991/DDoS-for-all/blob/main/MHDDoS_proxy.md)
-- [Utility for converting shared targets into config format](https://github.com/kobzar-darmogray/mhddos_proxy_utils)
-- [Аналіз засобу mhddos_proxy](https://telegra.ph/Anal%D1%96z-zasobu-mhddos-proxy-04-01)
+### 🐳 Community
+- [Detailed analysis of MHDDoS_proxy] (https://github.com/SlavaUkraineSince1991/DDoS-for-all/blob/main/MHDDoS_proxy.md)
+- [Utility for converting shared targets into config format] (https://github.com/kobzar-darmogray/mhddos_proxy_utils)
+- [Analysis of the tool mhddos_proxy] (https://telegra.ph/Anal%D1%96z-zasobu-mhddos-proxy-04-01)
 
-### 🚨 Попередження щодо деяких методів атаки
-Метод **BYPASS** - це повільна версія методу GET, має сумнівну ефективність через відсутність помітної реалізації обходу захисту.
+### 🚨 Warning about some attack methods
+The ** BYPASS ** method is a slow version of the GET method, which has questionable effectiveness due to the lack of a noticeable implementation of security bypass.
 
-Метод **CFB** - може обійти лише незначну частину захисту деяких сайтів, повна реалізація потребує вирішення CAPTCHA,
-а також доступу до платної версії бібліотеки яку не можливо буде включити до складу mhddos_proxy (через відкритий код).  
-Метод **DGB** - успішні запити залежать не від самої реалізації (вона не працює), а від "чистоти" IP-адреси.  
-Наразі не існує надійної open-source реалізації обходу Cloudflare та DDoS-Guard.  
-Еффективнішим буде пошук оригінальних серверів цілі або атака методами за замовчуванням.
+** CFB ** method - can bypass only a small part of the protection of some sites, full implementation requires a CAPTCHA solution,
+and access to a paid version of the library that cannot be included in mhddos_proxy (open source).
+** DGB ** method - successful requests do not depend on the implementation itself (it does not work), but on the "purity" of the IP address.
+There is currently no reliable open-source implementation of Cloudflare and DDoS-Guard workarounds.
+Finding the original target servers or attacking by default will be more effective.
 
-Метод **BOMB** потребує значно більше RAM - зменшіть значення `-t`.  
-Також потребує додаткових налаштувань при запуску через python - звертайтеся
-до [документації MHDDoS](https://github.com/MHProDev/MHDDoS).
+The ** BOMB ** method requires much more RAM - reduce the value of `-t`.
+Also needs additional settings when running via python - please contact
+to [MHDDoS documentation] (https://github.com/MHProDev/MHDDoS).
 
-Метод **KILLER** може мати непередбачувані наслідки для вашої системи - використання на власний ризик.
+The ** KILLER ** method can have unpredictable consequences for your system - use at your own risk.
 
 ### CLI
 
