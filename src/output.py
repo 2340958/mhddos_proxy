@@ -58,7 +58,7 @@ def show_statistic(statistics, refresh_rate, table, vpn_mode, proxies_cnt, perio
             ))
         else:
             logger.info(
-                f'{cl.YELLOW}Ціль:{cl.BLUE} %s,{cl.YELLOW} Порт:{cl.BLUE} %s,{cl.YELLOW} Метод:{cl.BLUE} %s{cl.YELLOW} Потоків:{cl.BLUE} %s{cl.YELLOW} PPS:{cl.BLUE} %s,{cl.YELLOW} BPS:{cl.BLUE} %s{cl.RESET}' %
+                f'{cl.YELLOW} Target: {cl.BLUE}% s, {cl.YELLOW} Port: {cl.BLUE}% s, {cl.YELLOW} Method: {cl.BLUE}% s {cl.YELLOW } Threads: {cl.BLUE}% s {cl.YELLOW} PPS: {cl.BLUE}% s, {cl.YELLOW} BPS: {cl.BLUE}% s {cl.RESET} '%
                 (
                     k.url.host,
                     k.url.port,
@@ -76,7 +76,7 @@ def show_statistic(statistics, refresh_rate, table, vpn_mode, proxies_cnt, perio
         cls()
         print(tabulate(
             tabulate_text,
-            headers=[f'{cl.BLUE}Ціль', 'Порт', 'Метод', 'Потоки', 'Запити/c', f'Трафік/c{cl.RESET}'],
+            headers=[f'{cl.BLUE} Target', 'Port', 'Method', 'Streams',' Queries / c ', f'Traffic / c {cl.RESET}'],
             tablefmt='fancy_grid'
         ))
         print_banner(vpn_mode)
@@ -85,20 +85,20 @@ def show_statistic(statistics, refresh_rate, table, vpn_mode, proxies_cnt, perio
 
 
 def print_progress(period, passed, proxies_cnt):
-    logger.info(f'{cl.GREEN}Новий цикл через: {round(period - passed)} секунд{cl.RESET}')
+    logger.info (f '{cl.GREEN} New cycle through: {round (period - passed)} seconds {cl.RESET}')
     if proxies_cnt:
-        logger.info(f'{cl.GREEN}Кількість проксі: {proxies_cnt}{cl.RESET}')
+        logger.info (f'{cl.GREEN} Number of proxies: {proxies_cnt} {cl.RESET}')
     else:
-        logger.info(f'{cl.GREEN}Атака без проксі - переконайтеся що ви анонімні{cl.RESET}')
+        logger.info (f'{cl.GREEN} Proxy-free attack - make sure you are anonymous {cl.RESET}')
 
 
 def print_banner(vpn_mode):
     print(f'''
-- {cl.YELLOW}Навантаження (кількість потоків){cl.RESET} - параметр `-t 3000`, за замовчуванням - CPU * {THREADS_PER_CORE}
-- {cl.YELLOW}Статистика у вигляді таблиці або тексту{cl.RESET} - прапорець `--table` або `--debug`
-- {cl.YELLOW}Повна документація{cl.RESET} - https://github.com/porthole-ascend-cinnamon/mhddos_proxy
+- {cl.YELLOW} Load (number of threads) {cl.RESET} - parameter `-t 3000`, default - CPU * {THREADS_PER_CORE}
+- {cl.YELLOW} Statistics as table or text {cl.RESET} - checkbox `--table` or` --debug`
+- {cl.YELLOW} Full documentation {cl.RESET} - https://github.com/porthole-ascend-cinnamon/mhddos_proxy
     ''')
 
     if not vpn_mode:
         print(
-            f'        {cl.MAGENTA}Щоб використовувати VPN або власний IP замість проксі - додайте прапорець `--vpn`{cl.RESET}\n')
+            f'        {cl.MAGENTA} To use VPN or native IP instead of proxy - check the box `--vpn`{cl.RESET}\n')
