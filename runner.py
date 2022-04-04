@@ -28,7 +28,7 @@ class DaemonThreadPool:
                 Thread(target=self._worker, daemon=True).start()
             except RuntimeError:
                 logger.warning(
-                    f'{cl.RED}Не вдалося запустити усі {num_threads} потоків - максимум {cnt - 50}{cl.RESET}')
+                    f'{cl.RED}Failed to run all {num_threads} threads - maximum {cnt - 50}{cl.RESET}')
                 exit()
 
     def submit(self, fn, *args, **kwargs):
@@ -65,7 +65,7 @@ def run_ddos(thread_pool, proxies, targets, total_threads, period, rpc, http_met
             for method in http_methods:
                 params_list.append(Params(target, ip, method, threads))
 
-    logger.info(f'{cl.GREEN}Запускаємо атаку...{cl.RESET}')
+    logger.info(f'{cl.GREEN}Launching an attack ...{cl.RESET}')
     statistics = {}
     event = Event()
     event.set()
@@ -85,7 +85,7 @@ def run_ddos(thread_pool, proxies, targets, total_threads, period, rpc, http_met
         mhddos_main(**kwargs)
         if not table:
             logger.info(
-                f"{cl.YELLOW}Атакуємо{cl.BLUE} %s{cl.YELLOW} методом{cl.BLUE} %s{cl.YELLOW}, потоків:{cl.BLUE} %d{cl.YELLOW}!{cl.RESET}"
+                f"{cl.YELLOW}Attack {cl.BLUE}% s {cl.YELLOW} with {cl.BLUE}% s {cl.YELLOW} threads: {cl.BLUE} %d{cl.YELLOW}!{cl.RESET}"
                 % (params.url.host, params.method, params.threads))
 
     if not (table or debug):
@@ -110,19 +110,19 @@ def start(total_threads, period, targets_iter, rpc, proxy_timeout, http_methods,
 
     for bypass in ('CFB', 'DGB', 'BYPASS'):
         if bypass in http_methods:
-            logger.warning(f'{cl.RED}Робота методу {bypass} не гарантована - атака методами за замовчуванням може бути ефективніша{cl.RESET}')
+            logger.warning(f'{cl.RED}The {bypass} method is not guaranteed to work - default attacks may be more effective{cl.RESET}')
 
     thread_pool = DaemonThreadPool(total_threads)
     while True:
         targets = list(get_resolvable_targets(targets_iter))
         if not targets:
-            logger.error(f'{cl.RED}Не знайдено жодної доступної цілі{cl.RESET}')
+            logger.error(f'{cl.RED}No available targets found{cl.RESET}')
             exit()
 
         if rpc < LOW_RPC:
             logger.warning(
-                f'{cl.RED}RPC менше за {LOW_RPC}. Це може призвести до падіння продуктивності '
-                f'через збільшення кількості перепідключень{cl.RESET}'
+                f'{cl.RED} RPC less than {LOW_RPC}. This can lead to a drop in productivity '
+                f'by increasing the number of reconnections {cl.RESET} '
             )
 
         no_proxies = vpn_mode or all(target.lower().startswith('udp://') for target in targets)
