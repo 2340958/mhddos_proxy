@@ -85,7 +85,7 @@ def show_statistic(statistics, refresh_rate, table, vpn_mode, proxies_cnt, perio
 
 
 def print_progress(period, passed, proxies_cnt):
-    logger.info (f '{cl.GREEN} New cycle through: {round (period - passed)} seconds {cl.RESET}')
+    logger.info (f'{cl.GREEN} New cycle through: {round (period - passed)} seconds {cl.RESET}')
     if proxies_cnt:
         logger.info (f'{cl.GREEN} Number of proxies: {proxies_cnt} {cl.RESET}')
     else:
